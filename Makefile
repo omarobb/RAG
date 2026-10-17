@@ -7,14 +7,14 @@ env:
 	@read -p "Are you on 42 device [y|n] " d; \
 	if [ "$$d" = "y" ]; then \
 		cd /goinfre/$(USER) && \
-		mkdir -p call && \
-		cd call && \
+		mkdir -p rag && \
+		cd rag && \
 		python3 -m venv .venv && \
-		ln -s -f /goinfre/$(USER)/call/.venv $(path) && \
+		ln -s -f /goinfre/$(USER)/rag/.venv $(path) && \
 		export UV_LINK_MODE=copy; \
 	else \
-		mkdir -p call_me_maybe && \
-		cd call_me_maybe && \
+		mkdir -p RAG && \
+		cd RAG && \
 		python3 -m venv .venv; \
 	fi
 

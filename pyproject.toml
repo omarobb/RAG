@@ -9,11 +9,18 @@ dependencies = [
     "fire>=0.7.1",
     "langchain-text-splitters>=1.1.3",
     "pydantic>=2.14.1",
+    "torch>=2.14.1",
     "tqdm>=4.70.1",
+    "transformers>=5.20.1",
 ]
 
 [project.scripts]
-rag = "rag:main"
+run = "RAG.src:main"
+
+[tool.uv.build-backend]
+module-name="src"
+module-root=""
+
 
 [build-system]
 requires = ["uv_build>=0.12.17,<0.13.0"]
