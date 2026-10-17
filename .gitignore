@@ -1,0 +1,9 @@
+data/
+.venv
+.vscode/
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.mypy_cache/
+
