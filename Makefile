@@ -27,7 +27,6 @@ run:
 
 clean:
 	find . -type d -name "__pycache__" -exec rm -rf {} +
-	rm -rf ./data/output
 	rm -rf .mypy_cache
 
 debug:

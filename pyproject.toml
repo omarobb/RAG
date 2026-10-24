@@ -14,8 +14,6 @@ dependencies = [
     "transformers>=5.20.1",
 ]
 
-[project.scripts]
-run = "RAG.src:main"
 
 [tool.uv.build-backend]
 module-name="src"
