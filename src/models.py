@@ -41,3 +41,10 @@ class StudentSearchResults(BaseModel):
 class StudentSearchResultsAndAnswer(BaseModel):
     search_results: List[MinimalAnswer]
     k: int
+
+
+class Chunk(BaseModel):
+    file_path: str
+    first_character_index: int
+    last_character_index: int
+    text: str
