@@ -1,9 +1,11 @@
 import bm25s
 import os
 import tqdm
-from tokenize import tokenize
-from chunking import chunk_file
+from .tokenize import tokenize
+from .chunking import chunk_file
 from pathlib import Path
+
+
 class Indexer:
     def __init__(self, raw_dir: str, processed_dir: str, max_chunks_size: int) -> None:
         self.chunks = []
@@ -13,16 +15,15 @@ class Indexer:
         self.raw_dir = raw_dir
 
     def collect_filse(self) -> list[str]:
-        file_to_ignore = '__pycache__'
         root_dir = 'data/raw'
         work_filse = []
         indexed_ext = {'.py', '.md'}
         for root, dirs, files in os.walk(self.raw_dir):
             for name in files:
-                if name != file_to_ignore:
-                    extension = os.path.splitext(self.raw_dir)[1]
-                    if extension in indexed_ext:
-                        work_filse.append(name)
+                extension = os.path.splitext(name)[1]
+                print(root, name, os.path.splitext(name)[1])
+                if extension in indexed_ext:
+                    work_filse.append(name)
         return sorted(work_filse)
 
     def build(self) -> None:
