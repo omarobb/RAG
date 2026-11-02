@@ -19,9 +19,10 @@ class Indexer:
         indexed_ext = {'.py', '.md'}
         for root, dirs, files in os.walk(self.raw_dir):
             for name in files:
-                extention = name.split('.')[1]
-                if extention in indexed_ext:
-                    work_filse.append(name)
+                if name != file_to_ignore:
+                    extension = os.path.splitext(self.raw_dir)[1]
+                    if extension in indexed_ext:
+                        work_filse.append(name)
         return sorted(work_filse)
 
     def build(self) -> None:
