@@ -1,7 +1,6 @@
 import bm25s
 import os
 import tqdm
-from .tokenize import tokenize
 from .chunking import chunk_file
 from pathlib import Path
 
@@ -30,7 +29,7 @@ class Indexer:
         files = self.collect_filse()
         for path in tqdm.tqdm(files):
             try:
-                self.chunks.append(chunk_file(path, self.max_chunks_size)) #############################
+                self.chunks += chunk_file(path, self.max_chunks_size)  #############################
             except ValueError:   #############3
                 print("ERROR in chunk_file")
                 continue
