@@ -1,19 +1,21 @@
 import bm25s
 import os
 import tqdm
+import json
 from .chunking import chunk_file
 from pathlib import Path
 
 
 class Indexer:
-    def __init__(self, raw_dir: str, processed_dir: str, max_chunks_size: int) -> None:
+    def __init__(self, raw_dir: str, processed_dir: str,
+                 max_chunks_size: int) -> None:
         self.chunks = []
         self.bm25 = None
         self.max_chunks_size = max_chunks_size
         self.processed_dir = processed_dir
         self.raw_dir = raw_dir
 
-    def collect_filse(self) -> list[str]:
+    def collect_files(self) -> list[str]:
         work_filse = []
         indexed_ext = {'.py', '.md'}
         for root, dirs, files in os.walk(self.raw_dir):
@@ -24,18 +26,21 @@ class Indexer:
         return sorted(work_filse)
 
     def build(self) -> None:
-        files = self.collect_filse()
+        files = self.collect_files()
         for path in tqdm.tqdm(files):
             self.chunks += chunk_file(path, self.max_chunks_size)
         tokens_per_chunk = bm25s.tokenize([c.text for c in self.chunks])
         self.bm25 = bm25s.BM25()
         self.bm25.index(tokens_per_chunk)
 
-
     def save(self) -> None:
         path = Path(self.processed_dir)
         path.mkdir(parents=True, exist_ok=True)
-        self.bm25.save(self.processed_dir / "bm25")
-
-        
-
+        self.bm25.save(path / "bm25")
+        with open(path / "chunk.json", 'w', encoding="UTF-8") as f:
+            data = [item.model_dump() for item in self.chunks]
+            json.dump(data, f)
+        with open(path / "meta.json", 'w', encoding="UTF-8") as f:
+            data = {"max_chunk_size": self.max_chunks_size,
+                    "num_chunks": len(self.chunks)}
+            json.dump(data, f)

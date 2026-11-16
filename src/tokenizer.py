@@ -5,4 +5,4 @@ def tokenize(text: str) -> list[str]:
             c.split('_' or '-')
         token.append(c)
     return token
-    
+
