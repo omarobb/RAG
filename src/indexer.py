@@ -17,8 +17,6 @@ class Indexer:
         work_filse = []
         indexed_ext = {'.py', '.md'}
         for root, dirs, files in os.walk(self.raw_dir):
-            print(len(files))
-            print(len(set(files)))
             for name in files:
                 extension = os.path.splitext(name)[1]
                 if extension in indexed_ext:
@@ -28,12 +26,8 @@ class Indexer:
     def build(self) -> None:
         files = self.collect_filse()
         for path in tqdm.tqdm(files):
-            try:
-                self.chunks += chunk_file(path, self.max_chunks_size)  #############################
-            except ValueError:   #############3
-                print("ERROR in chunk_file")
-                continue
-        tokens_per_chunk = [bm25s.tokenize(c) for c in self.chunks]
+            self.chunks += chunk_file(path, self.max_chunks_size)
+        tokens_per_chunk = bm25s.tokenize([c.text for c in self.chunks])
         self.bm25 = bm25s.BM25()
         self.bm25.index(tokens_per_chunk)
 
