@@ -14,15 +14,16 @@ class Indexer:
         self.raw_dir = raw_dir
 
     def collect_filse(self) -> list[str]:
-        root_dir = 'data/raw'
+        root_dir = 'data/raw/a'
         work_filse = []
         indexed_ext = {'.py', '.md'}
         for root, dirs, files in os.walk(self.raw_dir):
+            print(len(files))
+            print(len(set(files)))
             for name in files:
                 extension = os.path.splitext(name)[1]
-                print(root, name, os.path.splitext(name)[1])
                 if extension in indexed_ext:
-                    work_filse.append(name)
+                    work_filse.append(os.path.join(root_dir, name))
         return sorted(work_filse)
 
     def build(self) -> None:
